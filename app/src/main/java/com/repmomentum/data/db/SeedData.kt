@@ -160,7 +160,15 @@ object SeedData {
         ),
     )
 
-    val exercises: List<Exercise> = initial + addedInV2 + addedInV3
+    /** Ajoutés en version 5 de la base. */
+    val addedInV5: List<Exercise> = listOf(
+        ex(
+            "Curl & press kettlebell", SHOULDERS, WEIGHTED,
+            description = "Kettlebell en main, bras le long du corps. Curl jusqu'à l'épaule, puis développé au-dessus de la tête bras tendu, et redescendre en contrôlant.",
+        ),
+    )
+
+    val exercises: List<Exercise> = initial + addedInV2 + addedInV3 + addedInV5
 
     private fun ex(
         name: String,

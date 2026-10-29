@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Exercise::class, SetEntry::class], version = 4, exportSchema = true)
+@Database(entities = [Exercise::class, SetEntry::class], version = 5, exportSchema = true)
 abstract class RepMomentumDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
     abstract fun setEntryDao(): SetEntryDao
@@ -21,7 +21,7 @@ abstract class RepMomentumDatabase : RoomDatabase() {
             } else {
                 Room.databaseBuilder(context, RepMomentumDatabase::class.java, NAME)
             }
-            return builder.addCallback(SeedCallback).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build()
+            return builder.addCallback(SeedCallback).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5).build()
         }
 
         /** v2 : swing et halo. Données seulement, le schéma ne change pas. */
@@ -41,6 +41,11 @@ abstract class RepMomentumDatabase : RoomDatabase() {
         /** v4 : consignes sans mention « par côté » (le poids et les reps sont totaux). */
         val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(db: SupportSQLiteDatabase) = refreshSeedDescriptions(db)
+        }
+
+        /** v5 : curl & press kettlebell. */
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) = insertMissing(db, SeedData.addedInV5, withDescription = true)
         }
 
         /**

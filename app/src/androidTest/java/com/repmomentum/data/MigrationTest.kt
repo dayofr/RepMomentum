@@ -119,6 +119,22 @@ class MigrationTest {
         db.close()
     }
 
+    @Test
+    fun migration4To5AddsCurlAndPress() {
+        helper.createDatabase(DB, 4).close()
+
+        val db = helper.runMigrationsAndValidate(DB, 5, true, RepMomentumDatabase.MIGRATION_4_5)
+
+        db.query("SELECT muscleGroup, exerciseType, description FROM exercises WHERE name = 'Curl & press kettlebell'").use { c ->
+            assertThat(c.count).isEqualTo(1)
+            c.moveToFirst()
+            assertThat(c.getString(0)).isEqualTo("SHOULDERS")
+            assertThat(c.getString(1)).isEqualTo("WEIGHTED")
+            assertThat(c.getString(2)).isNotEmpty()
+        }
+        db.close()
+    }
+
     private companion object {
         const val DB = "migration-test"
     }
