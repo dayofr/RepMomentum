@@ -32,6 +32,8 @@ Sans `keystore.properties`, l'APK release reste non signé. Ne jamais versionner
 - `ui/` : écrans Compose et ViewModels (MVVM), navigation typée.
 - Injection manuelle via `AppContainer`.
 
+Le poids saisi est toujours la charge totale de la série, y compris pour les exercices unilatéraux : pas de notion « par côté ».
+
 Le volume (poids × reps) ne compte que les exercices à charge externe et sépare kg et lb. Les exercices au poids du corps notent le lest ajouté ; ceux en durée stockent des secondes.
 
 ## Polices
