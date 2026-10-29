@@ -1,14 +1,13 @@
 package com.repmomentum.data.db
 
-import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Exercise::class, SetEntry::class], version = 1, exportSchema = true)
+@Database(entities = [Exercise::class, SetEntry::class], version = 2, exportSchema = true)
 abstract class RepMomentumDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
     abstract fun setEntryDao(): SetEntryDao
@@ -22,25 +21,38 @@ abstract class RepMomentumDatabase : RoomDatabase() {
             } else {
                 Room.databaseBuilder(context, RepMomentumDatabase::class.java, NAME)
             }
-            return builder.addCallback(SeedCallback).build()
+            return builder.addCallback(SeedCallback).addMigrations(MIGRATION_1_2).build()
+        }
+
+        /** v2 : exercices kettlebell. Données seulement, le schéma ne change pas. */
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) = insertMissing(db, SeedData.addedInV2)
+        }
+
+        /** Insère les exercices absents ; un exercice perso du même nom est conservé tel quel. */
+        private fun insertMissing(db: SupportSQLiteDatabase, exercises: List<Exercise>) {
+            exercises.forEach { exercise ->
+                db.execSQL(
+                    """
+                    INSERT INTO exercises (name, muscleGroup, exerciseType, loadUnit, isFavorite, isCustom, isArchived)
+                    SELECT ?, ?, ?, ?, ?, 0, 0
+                    WHERE NOT EXISTS (SELECT 1 FROM exercises WHERE name = ? COLLATE NOCASE)
+                    """.trimIndent(),
+                    arrayOf<Any>(
+                        exercise.name,
+                        exercise.muscleGroup.name,
+                        exercise.exerciseType.name,
+                        exercise.loadUnit.name,
+                        if (exercise.isFavorite) 1 else 0,
+                        exercise.name,
+                    ),
+                )
+            }
         }
     }
 
     /** Remplit la bibliothèque dans la transaction de création : elle n'est jamais vue vide. */
     private object SeedCallback : Callback() {
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            SeedData.exercises.forEach { exercise ->
-                val values = ContentValues().apply {
-                    put("name", exercise.name)
-                    put("muscleGroup", exercise.muscleGroup.name)
-                    put("exerciseType", exercise.exerciseType.name)
-                    put("loadUnit", exercise.loadUnit.name)
-                    put("isFavorite", exercise.isFavorite)
-                    put("isCustom", false)
-                    put("isArchived", false)
-                }
-                db.insert("exercises", SQLiteDatabase.CONFLICT_ABORT, values)
-            }
-        }
+        override fun onCreate(db: SupportSQLiteDatabase) = insertMissing(db, SeedData.exercises)
     }
 }

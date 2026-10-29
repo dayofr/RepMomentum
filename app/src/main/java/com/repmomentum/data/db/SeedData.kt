@@ -12,9 +12,12 @@ import com.repmomentum.data.db.MuscleGroup.LEGS
 import com.repmomentum.data.db.MuscleGroup.SHOULDERS
 import com.repmomentum.data.db.MuscleGroup.TRICEPS
 
-/** Exercices préchargés à la création de la base. Quelques favoris pour un premier ajout immédiat. */
+/**
+ * Exercices préchargés. Quelques favoris pour un premier ajout immédiat.
+ * Un ajout à la liste doit aussi passer par une migration pour les bases existantes.
+ */
 object SeedData {
-    val exercises: List<Exercise> = listOf(
+    private val initial: List<Exercise> = listOf(
         ex("Tractions", BACK, BODYWEIGHT, favorite = true),
         ex("Pompes", CHEST, BODYWEIGHT, favorite = true),
         ex("Développé couché", CHEST, WEIGHTED, favorite = true),
@@ -35,6 +38,14 @@ object SeedData {
         ex("Gainage latéral", CORE, TIMED),
         ex("Chaise", LEGS, TIMED),
     )
+
+    /** Ajoutés en version 2 de la base. */
+    val addedInV2: List<Exercise> = listOf(
+        ex("Kettlebell swing à deux mains", FULL_BODY, WEIGHTED),
+        ex("Kettlebell halo", SHOULDERS, WEIGHTED),
+    )
+
+    val exercises: List<Exercise> = initial + addedInV2
 
     private fun ex(name: String, group: MuscleGroup, type: ExerciseType, favorite: Boolean = false) = Exercise(
         name = name,
