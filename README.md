@@ -33,3 +33,7 @@ Sans `keystore.properties`, l'APK release reste non signé. Ne jamais versionner
 - Injection manuelle via `AppContainer`.
 
 Le volume (poids × reps) ne compte que les exercices à charge externe et sépare kg et lb. Les exercices au poids du corps notent le lest ajouté ; ceux en durée stockent des secondes.
+
+## Polices
+
+Space Grotesk (titres), Hanken Grotesk (texte) et JetBrains Mono (chiffres), en polices variables dans `app/src/main/res/font/`. Licence SIL OFL 1.1 : textes dans `licenses/`.

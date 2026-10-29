@@ -1,5 +1,6 @@
 package com.repmomentum.ui.theme
 
+import androidx.annotation.FontRes
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
@@ -7,12 +8,16 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.repmomentum.R
 
 // Palette « Kinetic Ledger » (stitch_repmomentum_android_app/kinetic_ledger/DESIGN.md).
 val Lime = Color(0xFFC3F400)
@@ -59,9 +64,21 @@ private val KineticColors = darkColorScheme(
     surfaceContainerHighest = Color(0xFF31353C),
 )
 
-/** Titres : grotesque serrée. Chiffres : monospace, pour que les valeurs ne bougent pas. */
-private val Display = FontFamily.SansSerif
-val Mono = FontFamily.Monospace
+/**
+ * Polices variables embarquées (licence OFL, voir licenses/) :
+ * titres en Space Grotesk, texte en Hanken Grotesk, chiffres en JetBrains Mono
+ * pour que les valeurs ne bougent pas en changeant.
+ */
+@OptIn(ExperimentalTextApi::class)
+private fun variableFamily(@FontRes res: Int, vararg weights: FontWeight) = FontFamily(
+    weights.map { weight ->
+        Font(res, weight, variationSettings = FontVariation.Settings(FontVariation.weight(weight.weight)))
+    },
+)
+
+private val Display = variableFamily(R.font.space_grotesk, FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold)
+private val Body = variableFamily(R.font.hanken_grotesk, FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold)
+val Mono = variableFamily(R.font.jetbrains_mono, FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold)
 
 private val KineticTypography = Typography().run {
     copy(
@@ -70,7 +87,13 @@ private val KineticTypography = Typography().run {
         headlineSmall = headlineSmall.copy(fontFamily = Display, fontWeight = FontWeight.SemiBold),
         titleLarge = titleLarge.copy(fontFamily = Display, fontWeight = FontWeight.SemiBold),
         titleMedium = titleMedium.copy(fontFamily = Display, fontWeight = FontWeight.SemiBold),
-        labelLarge = labelLarge.copy(fontWeight = FontWeight.SemiBold),
+        titleSmall = titleSmall.copy(fontFamily = Display, fontWeight = FontWeight.SemiBold),
+        bodyLarge = bodyLarge.copy(fontFamily = Body),
+        bodyMedium = bodyMedium.copy(fontFamily = Body),
+        bodySmall = bodySmall.copy(fontFamily = Body),
+        labelLarge = labelLarge.copy(fontFamily = Display, fontWeight = FontWeight.SemiBold),
+        labelMedium = labelMedium.copy(fontFamily = Body, fontWeight = FontWeight.Medium),
+        labelSmall = labelSmall.copy(fontFamily = Body, fontWeight = FontWeight.Medium),
     )
 }
 
