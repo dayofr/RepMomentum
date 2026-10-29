@@ -1,0 +1,1 @@
+First release: daily log, quick set entry, 34 exercises with cues, custom exercises, per-exercise progress. Offline, no permissions.

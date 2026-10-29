@@ -1,0 +1,28 @@
+# Brouillon de métadonnées pour https://gitlab.com/fdroid/fdroiddata
+# (à copier dans metadata/fr.dayo.repmomentum.yml de ce dépôt).
+# Les textes et images viennent de fastlane/ dans le dépôt de l'app.
+Categories:
+  - Sports & Health
+License: GPL-3.0-or-later
+AuthorName: dayofr
+SourceCode: https://github.com/dayofr/RepMomentum
+IssueTracker: https://github.com/dayofr/RepMomentum/issues
+Changelog: https://github.com/dayofr/RepMomentum/tags
+
+AutoName: RepMomentum
+
+RepoType: git
+Repo: https://github.com/dayofr/RepMomentum.git
+
+Builds:
+  - versionName: 1.0.0
+    versionCode: 1
+    commit: v1.0.0
+    subdir: app
+    gradle:
+      - yes
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 1.0.0
+CurrentVersionCode: 1

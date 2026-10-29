@@ -13,7 +13,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.repmomentum"
+        applicationId = "fr.dayo.repmomentum"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
@@ -51,6 +51,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    // F-Droid : pas de bloc de dépendances chiffré pour Google dans l'APK.
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 
     buildFeatures {

@@ -2,6 +2,12 @@
 
 Journal de musculation pour séries réparties dans la journée. Chaque série est une entrée indépendante : pas de séance à démarrer ni à terminer. Application Android hors ligne, sans compte ni télémétrie.
 
+## Licence
+
+GPL-3.0-or-later. Voir `LICENSE`.
+
+Publication F-Droid : `docs/fdroid/PUBLICATION.md`.
+
 ## Prérequis
 
 - JDK 17 (`brew install openjdk@17`, puis `JAVA_HOME` dessus).

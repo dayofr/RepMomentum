@@ -1,0 +1,23 @@
+<p>RepMomentum is a strength training log built for small sets spread throughout the day ("greasing the groove") rather than one-hour sessions.</p>
+
+<p>Each set is an independent entry: no workout to start or finish. Pick a favorite exercise, enter weight and reps, save: the set is in your log within seconds.</p>
+
+<p>The interface is in French.</p>
+
+<p><b>Features</b></p>
+<ul>
+<li>Daily log: sets, reps and volume of the day, day-by-day navigation.</li>
+<li>One-handed quick entry: favorites, values prefilled from your last set, + and − steppers, presets.</li>
+<li>Time recorded automatically, editable afterwards.</li>
+<li>Library of 34 exercises with execution cues, including 15 kettlebell exercises. Custom exercises.</li>
+<li>Weighted, bodyweight (optional added load) and timed exercises (planks).</li>
+<li>Per-exercise progress: last set, max recorded load, chart, history.</li>
+<li>Edit and delete sets, instant undo after logging.</li>
+</ul>
+
+<p><b>Privacy</b></p>
+<ul>
+<li>Works fully offline. No permissions requested.</li>
+<li>No account, no server, no ads, no telemetry.</li>
+<li>Your data stays on your device.</li>
+</ul>

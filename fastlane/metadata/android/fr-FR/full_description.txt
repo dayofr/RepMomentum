@@ -1,0 +1,21 @@
+<p>RepMomentum est un journal de musculation pensé pour les petites séries réparties tout au long de la journée (« greasing the groove »), plutôt que pour les séances d'une heure.</p>
+
+<p>Chaque série est une entrée indépendante : pas de séance à démarrer ni à terminer. Choisir un exercice favori, saisir le poids et les répétitions, enregistrer : la série est dans le journal en quelques secondes.</p>
+
+<p><b>Fonctionnalités</b></p>
+<ul>
+<li>Journal quotidien : séries, répétitions et volume du jour, navigation entre les jours.</li>
+<li>Saisie rapide pensée pour une main : favoris, valeurs préremplies depuis la dernière série, boutons + et −, préréglages.</li>
+<li>Heure enregistrée automatiquement, modifiable après coup.</li>
+<li>Bibliothèque de 34 exercices avec consignes d'exécution, dont 15 au kettlebell. Exercices personnalisés.</li>
+<li>Exercices avec charge, au poids du corps (lest facultatif) ou en durée (gainage).</li>
+<li>Progression par exercice : dernière série, charge max enregistrée, courbe, historique.</li>
+<li>Modification et suppression des séries, annulation immédiate après un ajout.</li>
+</ul>
+
+<p><b>Respect de la vie privée</b></p>
+<ul>
+<li>Fonctionne entièrement hors ligne. Aucune permission demandée.</li>
+<li>Aucun compte, aucun serveur, aucune publicité, aucune télémétrie.</li>
+<li>Les données restent sur l'appareil.</li>
+</ul>
