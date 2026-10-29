@@ -3,6 +3,7 @@ package com.repmomentum.ui.logset
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -59,6 +60,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -93,6 +95,7 @@ import java.time.ZoneId
 
 private val REP_PRESETS = listOf(5, 8, 10, 12, 15)
 private val SECOND_PRESETS = listOf(30, 45, 60, 90)
+private const val WIDE_LAYOUT_DP = 600
 
 @Composable
 fun LogSetScreen(
@@ -158,6 +161,8 @@ class LogSetActions(
 @Composable
 fun LogSetContent(state: LogSetUiState, zone: ZoneId, actions: LogSetActions) {
     var confirmDelete by rememberSaveable { mutableStateOf(false) }
+    // Paysage ou grand écran : deux colonnes, le bouton Enregistrer suit la saisie.
+    val wide = LocalConfiguration.current.screenWidthDp >= WIDE_LAYOUT_DP
     Scaffold(
         topBar = {
             TopAppBar(
@@ -177,31 +182,9 @@ fun LogSetContent(state: LogSetUiState, zone: ZoneId, actions: LogSetActions) {
             )
         },
         bottomBar = {
-            if (!state.isLoading && !state.notFound) {
+            if (!wide && !state.isLoading && !state.notFound) {
                 Surface(color = MaterialTheme.colorScheme.surfaceContainer) {
-                    Column(Modifier.navigationBarsPadding().imePadding().padding(16.dp)) {
-                        if (state.saveFailed) {
-                            Text(
-                                stringResource(R.string.error_save),
-                                color = MaterialTheme.colorScheme.error,
-                                style = MaterialTheme.typography.bodySmall,
-                                modifier = Modifier.padding(bottom = 8.dp),
-                            )
-                        }
-                        Button(
-                            onClick = actions.onSave,
-                            enabled = state.canSave,
-                            modifier = Modifier.fillMaxWidth().height(56.dp).testTag("save_set"),
-                            shape = MaterialTheme.shapes.medium,
-                        ) {
-                            Icon(Icons.Filled.Check, contentDescription = null)
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                stringResource(if (state.selected == null) R.string.log_pick_first else R.string.action_save_set),
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-                        }
-                    }
+                    SaveBar(state, actions, Modifier.navigationBarsPadding().imePadding().padding(16.dp))
                 }
             }
         },
@@ -214,14 +197,27 @@ fun LogSetContent(state: LogSetUiState, zone: ZoneId, actions: LogSetActions) {
                 message = stringResource(R.string.log_not_found_message),
                 modifier = Modifier.padding(padding),
             )
-            else -> Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+            wide -> Row(
+                modifier = Modifier.padding(padding).fillMaxSize().imePadding().padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
             ) {
+                val exercise = state.selected
+                ScrollColumn(Modifier.weight(1f)) {
+                    ExercisePicker(state, actions)
+                    if (exercise != null && !state.browsing) SelectedHeader(exercise, state, zone)
+                }
+                Column(Modifier.weight(1f).navigationBarsPadding()) {
+                    ScrollColumn(Modifier.weight(1f)) {
+                        if (exercise != null && !state.browsing) {
+                            InputFields(exercise, state, actions)
+                            TimeRow(state, zone, actions)
+                            NotesField(state, actions)
+                        }
+                    }
+                    SaveBar(state, actions, Modifier.padding(vertical = 8.dp))
+                }
+            }
+            else -> ScrollColumn(Modifier.padding(padding).fillMaxSize().padding(horizontal = 16.dp)) {
                 ExercisePicker(state, actions)
                 val exercise = state.selected
                 if (exercise != null && !state.browsing) {
@@ -246,6 +242,42 @@ fun LogSetContent(state: LogSetUiState, zone: ZoneId, actions: LogSetActions) {
             },
             dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.action_cancel)) } },
         )
+    }
+}
+
+@Composable
+private fun ScrollColumn(modifier: Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Column(
+        modifier = modifier.verticalScroll(rememberScrollState()).padding(vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        content = content,
+    )
+}
+
+@Composable
+private fun SaveBar(state: LogSetUiState, actions: LogSetActions, modifier: Modifier = Modifier) {
+    Column(modifier) {
+        if (state.saveFailed) {
+            Text(
+                stringResource(R.string.error_save),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(bottom = 8.dp),
+            )
+        }
+        Button(
+            onClick = actions.onSave,
+            enabled = state.canSave,
+            modifier = Modifier.fillMaxWidth().height(56.dp).testTag("save_set"),
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            Icon(Icons.Filled.Check, contentDescription = null)
+            Spacer(Modifier.width(8.dp))
+            Text(
+                stringResource(if (state.selected == null) R.string.log_pick_first else R.string.action_save_set),
+                style = MaterialTheme.typography.titleMedium,
+            )
+        }
     }
 }
 
