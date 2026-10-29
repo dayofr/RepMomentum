@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RepMomentum</string>
+
+    <!-- Navigation -->
+    <string name="nav_journal">Journal</string>
+    <string name="nav_exercises">Exercices</string>
+    <string name="nav_progress">Progression</string>
+    <string name="nav_settings">Paramètres</string>
+
+    <!-- Actions -->
+    <string name="action_add_set">Ajouter une série</string>
+    <string name="action_save_set">Enregistrer la série</string>
+    <string name="action_save">Enregistrer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_undo">Annuler</string>
+    <string name="action_ok">OK</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_back">Retour</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_archive">Archiver</string>
+    <string name="action_delete_set">Supprimer la série</string>
+    <string name="action_repeat_set">Refaire maintenant : %1$s</string>
+    <string name="action_new_exercise">Nouvel exercice</string>
+    <string name="action_edit_exercise">Modifier l\'exercice</string>
+    <string name="action_delete_exercise">Supprimer l\'exercice</string>
+    <string name="action_archive_exercise">Archiver l\'exercice</string>
+    <string name="action_favorite">Ajouter %1$s aux favoris</string>
+    <string name="action_unfavorite">Retirer %1$s des favoris</string>
+    <string name="action_log_exercise">Ajouter une série de %1$s</string>
+
+    <!-- Jours -->
+    <string name="day_today">Aujourd\'hui</string>
+    <string name="day_yesterday">Hier</string>
+    <string name="day_previous">Jour précédent</string>
+    <string name="day_next">Jour suivant</string>
+    <string name="day_pick">Choisir un jour</string>
+    <string name="day_back_to_today">Aujourd\'hui</string>
+
+    <!-- Journal -->
+    <string name="summary_sets">Séries</string>
+    <string name="summary_reps">Reps</string>
+    <string name="summary_volume">Volume</string>
+    <string name="summary_volume_none">sans charge externe</string>
+    <string name="summary_duration">Durée cumulée</string>
+    <plurals name="journal_sets_title">
+        <item quantity="one">%d série</item>
+        <item quantity="many">%d séries</item>
+        <item quantity="other">%d séries</item>
+    </plurals>
+    <string name="journal_empty_title">Aucune série ce jour</string>
+    <string name="journal_empty_message">Touchez « Ajouter une série » pour enregistrer votre première série.</string>
+
+    <!-- Saisie d'une série -->
+    <string name="log_title_new">Nouvelle série</string>
+    <string name="log_title_edit">Modifier la série</string>
+    <string name="log_exercise">Exercice</string>
+    <string name="log_browse">Tout parcourir</string>
+    <string name="log_close_search">Fermer la recherche</string>
+    <string name="log_search_hint">Rechercher un exercice</string>
+    <string name="log_search_empty">Aucun exercice ne correspond.</string>
+    <string name="log_pick_first">Choisissez un exercice</string>
+    <string name="log_prefilled_from">Dernière série : %1$s (%2$s)</string>
+    <string name="log_load">Charge</string>
+    <string name="log_added_load">Lest (facultatif)</string>
+    <string name="log_reps">Répétitions</string>
+    <string name="log_duration">Durée</string>
+    <string name="log_when">Quand</string>
+    <string name="log_time_title">Heure de la série</string>
+    <string name="log_notes">Note</string>
+    <string name="log_add_note">+ Ajouter une note</string>
+    <string name="log_not_found_title">Série introuvable</string>
+    <string name="log_not_found_message">Elle a peut-être été supprimée.</string>
+    <string name="delete_set_title">Supprimer cette série ?</string>
+    <string name="delete_set_message">Elle sera retirée du journal et des statistiques.</string>
+
+    <!-- Unités et charges -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_lb">lb</string>
+    <string name="unit_seconds">s</string>
+    <string name="load_bodyweight">PDC</string>
+    <string name="load_bodyweight_plus">PDC + %1$s</string>
+    <plurals name="reps">
+        <item quantity="one">%d rep</item>
+        <item quantity="many">%d reps</item>
+        <item quantity="other">%d reps</item>
+    </plurals>
+    <plurals name="sets_count">
+        <item quantity="one">%d série</item>
+        <item quantity="many">%d séries</item>
+        <item quantity="other">%d séries</item>
+    </plurals>
+
+    <!-- Exercices -->
+    <string name="filter_all">Tous</string>
+    <string name="filter_favorites">Favoris</string>
+    <string name="exercises_favorites">Favoris</string>
+    <string name="exercises_library">Bibliothèque</string>
+    <string name="exercises_empty_title">Aucun exercice</string>
+    <string name="exercises_empty_message">Modifiez la recherche ou créez un exercice.</string>
+    <string name="exercise_custom">Perso</string>
+    <string name="exercise_last_used">dernière : %1$s</string>
+    <string name="exercise_new_title">Nouvel exercice</string>
+    <string name="exercise_edit_title">Modifier l\'exercice</string>
+    <string name="exercise_name">Nom</string>
+    <string name="exercise_group">Groupe musculaire</string>
+    <string name="exercise_type">Type</string>
+    <string name="exercise_unit">Unité de charge</string>
+    <string name="exercise_favorite">Favori</string>
+    <string name="exercise_type_weighted_help">Charge externe (barre, haltères, machine). Compte dans le volume.</string>
+    <string name="exercise_type_bodyweight_help">Poids du corps, avec lest facultatif. Pas de volume en kg : le poids du corps n\'est pas connu.</string>
+    <string name="exercise_type_timed_help">Effort tenu, saisi en secondes (gainage, chaise).</string>
+    <string name="exercise_locked_help">Des séries existent déjà : le type et l\'unité ne peuvent plus changer pour garder un historique cohérent.</string>
+    <string name="delete_exercise_title">Supprimer cet exercice ?</string>
+    <string name="delete_exercise_message">Aucune série ne l\'utilise. Il sera supprimé définitivement.</string>
+    <string name="archive_exercise_title">Archiver cet exercice ?</string>
+    <string name="archive_exercise_message">Il disparaît de la bibliothèque. Ses séries restent dans le journal et l\'historique.</string>
+
+    <string name="type_weighted">Charge</string>
+    <string name="type_bodyweight">Poids du corps</string>
+    <string name="type_timed">Durée</string>
+
+    <string name="group_chest">Pectoraux</string>
+    <string name="group_back">Dos</string>
+    <string name="group_shoulders">Épaules</string>
+    <string name="group_biceps">Biceps</string>
+    <string name="group_triceps">Triceps</string>
+    <string name="group_legs">Jambes</string>
+    <string name="group_core">Gainage / abdos</string>
+    <string name="group_full_body">Corps entier</string>
+
+    <!-- Progression -->
+    <string name="progress_exercise">Exercice</string>
+    <string name="progress_empty_title">Pas encore de données</string>
+    <string name="progress_empty_message">Enregistrez quelques séries pour suivre votre progression.</string>
+    <string name="progress_no_sets_title">Aucune série pour cet exercice</string>
+    <string name="progress_no_sets_message">Ajoutez une série pour commencer l\'historique.</string>
+    <string name="progress_last">Dernière série</string>
+    <string name="progress_best_load">Charge max enregistrée</string>
+    <string name="progress_best_added_load">Lest max enregistré</string>
+    <string name="progress_best_reps">Meilleure série (reps)</string>
+    <string name="progress_best_duration">Durée max enregistrée</string>
+    <string name="progress_best_disclaimer">Maximum parmi vos séries saisies. Ce n\'est pas un record testé.</string>
+    <string name="progress_active_days">Jours</string>
+    <string name="progress_chart_load">Charge max par jour</string>
+    <string name="progress_chart_added_load">Lest max par jour</string>
+    <string name="progress_chart_reps">Reps max par jour</string>
+    <string name="progress_chart_duration">Durée max par jour</string>
+    <string name="progress_chart_not_enough">La courbe apparaît à partir de deux jours de données.</string>
+    <string name="progress_chart_description">Courbe sur %1$d jours, de %2$s à %3$s.</string>
+    <string name="progress_history">Historique</string>
+
+    <!-- Paramètres -->
+    <string name="settings_increment">Pas de charge</string>
+    <string name="settings_increment_help">Valeur des boutons + et − du champ de charge.</string>
+    <string name="settings_unit">Unité par défaut</string>
+    <string name="settings_unit_help">Unité proposée pour les nouveaux exercices.</string>
+    <string name="settings_data">Données</string>
+    <string name="settings_data_help">Tout est stocké sur cet appareil. Aucun compte, aucun serveur, aucune télémétrie.</string>
+    <string name="settings_version">RepMomentum %1$s</string>
+
+    <!-- Messages -->
+    <string name="snackbar_set_saved">Série enregistrée</string>
+    <string name="snackbar_set_updated">Série modifiée</string>
+    <string name="snackbar_set_deleted">Série supprimée</string>
+    <string name="snackbar_exercise_archived">Exercice archivé</string>
+    <string name="snackbar_exercise_deleted">Exercice supprimé</string>
+
+    <!-- Erreurs -->
+    <string name="error_required">Champ requis</string>
+    <string name="error_invalid">Valeur invalide</string>
+    <string name="error_too_low">Valeur trop basse</string>
+    <string name="error_too_high">Valeur trop élevée</string>
+    <string name="error_duplicate_name">Un exercice porte déjà ce nom</string>
+    <string name="error_future_time">L\'heure ne peut pas être dans le futur.</string>
+    <string name="error_save">L\'enregistrement a échoué. Réessayez.</string>
+    <string name="error_load_title">Chargement impossible</string>
+    <string name="error_load_message">Les données n\'ont pas pu être lues. Redémarrez l\'application.</string>
+</resources>

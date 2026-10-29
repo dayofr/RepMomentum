@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Haltère stylisée, couleur citron du design system. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="@color/lime"
+        android:pathData="M32,40h6v28h-6z M40,34h7v40h-7z M61,34h7v40h-7z M70,40h6v28h-6z M47,51h14v6h-14z" />
+</vector>
