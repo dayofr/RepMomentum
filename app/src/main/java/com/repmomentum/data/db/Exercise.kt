@@ -32,4 +32,6 @@ data class Exercise(
     val isCustom: Boolean = false,
     /** Exercice perso retiré de la bibliothèque mais conservé pour l'historique. */
     val isArchived: Boolean = false,
+    /** Consigne d'exécution courte, facultative. */
+    val description: String? = null,
 )

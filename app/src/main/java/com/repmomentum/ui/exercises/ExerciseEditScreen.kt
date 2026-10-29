@@ -127,6 +127,15 @@ fun ExerciseEditScreen(
                 keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
                 modifier = Modifier.fillMaxWidth(),
             )
+            OutlinedTextField(
+                value = state.description,
+                onValueChange = viewModel::setDescription,
+                label = { Text(stringResource(R.string.exercise_description)) },
+                placeholder = { Text(stringResource(R.string.exercise_description_hint)) },
+                minLines = 2,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                modifier = Modifier.fillMaxWidth(),
+            )
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 MetricLabel(stringResource(R.string.exercise_group))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {

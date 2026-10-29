@@ -194,6 +194,16 @@ private fun ProgressContent(
         contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 104.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        exercise.description?.let { description ->
+            item(key = "description") {
+                Text(
+                    description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                )
+            }
+        }
         if (stats.totalSets == 0) {
             item(key = "empty") {
                 EmptyState(

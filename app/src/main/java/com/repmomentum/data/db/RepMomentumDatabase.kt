@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Exercise::class, SetEntry::class], version = 2, exportSchema = true)
+@Database(entities = [Exercise::class, SetEntry::class], version = 3, exportSchema = true)
 abstract class RepMomentumDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
     abstract fun setEntryDao(): SetEntryDao
@@ -21,31 +21,51 @@ abstract class RepMomentumDatabase : RoomDatabase() {
             } else {
                 Room.databaseBuilder(context, RepMomentumDatabase::class.java, NAME)
             }
-            return builder.addCallback(SeedCallback).addMigrations(MIGRATION_1_2).build()
+            return builder.addCallback(SeedCallback).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
         }
 
-        /** v2 : exercices kettlebell. Données seulement, le schéma ne change pas. */
+        /** v2 : swing et halo. Données seulement, le schéma ne change pas. */
         val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(db: SupportSQLiteDatabase) = insertMissing(db, SeedData.addedInV2)
+            override fun migrate(db: SupportSQLiteDatabase) = insertMissing(db, SeedData.addedInV2, withDescription = false)
         }
 
-        /** Insère les exercices absents ; un exercice perso du même nom est conservé tel quel. */
-        private fun insertMissing(db: SupportSQLiteDatabase, exercises: List<Exercise>) {
+        /** v3 : colonne description, consignes des exercices préchargés, exercices kettlebell. */
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE exercises ADD COLUMN description TEXT")
+                insertMissing(db, SeedData.addedInV3, withDescription = true)
+                // Seuls les exercices préchargés reçoivent leur consigne ; les perso restent intacts.
+                SeedData.exercises.forEach { exercise ->
+                    db.execSQL(
+                        "UPDATE exercises SET description = ? WHERE isCustom = 0 AND description IS NULL AND name = ?",
+                        arrayOf<Any?>(exercise.description, exercise.name),
+                    )
+                }
+            }
+        }
+
+        /**
+         * Insère les exercices absents ; un exercice du même nom (perso compris) est conservé tel quel.
+         * [withDescription] faux pour les schémas antérieurs à la v3, sans cette colonne.
+         */
+        private fun insertMissing(db: SupportSQLiteDatabase, exercises: List<Exercise>, withDescription: Boolean) {
+            val columns = "name, muscleGroup, exerciseType, loadUnit, isFavorite, isCustom, isArchived" +
+                if (withDescription) ", description" else ""
+            val values = "?, ?, ?, ?, ?, 0, 0" + if (withDescription) ", ?" else ""
             exercises.forEach { exercise ->
+                val args = buildList<Any?> {
+                    add(exercise.name)
+                    add(exercise.muscleGroup.name)
+                    add(exercise.exerciseType.name)
+                    add(exercise.loadUnit.name)
+                    add(if (exercise.isFavorite) 1 else 0)
+                    if (withDescription) add(exercise.description)
+                    add(exercise.name)
+                }
                 db.execSQL(
-                    """
-                    INSERT INTO exercises (name, muscleGroup, exerciseType, loadUnit, isFavorite, isCustom, isArchived)
-                    SELECT ?, ?, ?, ?, ?, 0, 0
-                    WHERE NOT EXISTS (SELECT 1 FROM exercises WHERE name = ? COLLATE NOCASE)
-                    """.trimIndent(),
-                    arrayOf<Any>(
-                        exercise.name,
-                        exercise.muscleGroup.name,
-                        exercise.exerciseType.name,
-                        exercise.loadUnit.name,
-                        if (exercise.isFavorite) 1 else 0,
-                        exercise.name,
-                    ),
+                    "INSERT INTO exercises ($columns) SELECT $values " +
+                        "WHERE NOT EXISTS (SELECT 1 FROM exercises WHERE name = ? COLLATE NOCASE)",
+                    args.toTypedArray(),
                 )
             }
         }
@@ -53,6 +73,6 @@ abstract class RepMomentumDatabase : RoomDatabase() {
 
     /** Remplit la bibliothèque dans la transaction de création : elle n'est jamais vue vide. */
     private object SeedCallback : Callback() {
-        override fun onCreate(db: SupportSQLiteDatabase) = insertMissing(db, SeedData.exercises)
+        override fun onCreate(db: SupportSQLiteDatabase) = insertMissing(db, SeedData.exercises, withDescription = true)
     }
 }

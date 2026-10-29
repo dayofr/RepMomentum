@@ -103,6 +103,8 @@
     <string name="exercise_new_title">Nouvel exercice</string>
     <string name="exercise_edit_title">Modifier l\'exercice</string>
     <string name="exercise_name">Nom</string>
+    <string name="exercise_description">Description (facultatif)</string>
+    <string name="exercise_description_hint">Consigne d\'exécution, points d\'attention…</string>
     <string name="exercise_group">Groupe musculaire</string>
     <string name="exercise_type">Type</string>
     <string name="exercise_unit">Unité de charge</string>

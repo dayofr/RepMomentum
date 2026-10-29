@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.repmomentum.data.db.RepMomentumDatabase
+import com.repmomentum.data.db.SeedData
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,6 +42,50 @@ class MigrationTest {
                 "kettlebell halo|CORE|LB|1",
                 "Kettlebell swing à deux mains|FULL_BODY|KG|0",
             ).inOrder()
+        }
+        db.query("SELECT COUNT(*) FROM set_entries").use { c ->
+            c.moveToFirst()
+            assertThat(c.getInt(0)).isEqualTo(1)
+        }
+        db.close()
+    }
+
+    @Test
+    fun migration2To3AddsDescriptionsAndKettlebellExercises() {
+        helper.createDatabase(DB, 2).use { db ->
+            db.execSQL(
+                "INSERT INTO exercises (id, name, muscleGroup, exerciseType, loadUnit, isFavorite, isCustom, isArchived) " +
+                    "VALUES (1, 'Squat', 'LEGS', 'WEIGHTED', 'KG', 1, 0, 0)",
+            )
+            db.execSQL(
+                "INSERT INTO exercises (id, name, muscleGroup, exerciseType, loadUnit, isFavorite, isCustom, isArchived) " +
+                    "VALUES (2, 'Windmill', 'CORE', 'WEIGHTED', 'LB', 0, 1, 0)",
+            )
+            db.execSQL(
+                "INSERT INTO set_entries (id, exerciseId, weight, repetitions, performedAt, notes, createdAt, updatedAt) " +
+                    "VALUES (1, 2, 20.0, 5, 1000, NULL, 1000, 1000)",
+            )
+        }
+
+        val db = helper.runMigrationsAndValidate(DB, 3, true, RepMomentumDatabase.MIGRATION_2_3)
+
+        fun description(name: String): String? =
+            db.query("SELECT description FROM exercises WHERE name = ?", arrayOf(name)).use { c ->
+                c.moveToFirst()
+                c.getString(0)
+            }
+        assertThat(description("Squat")).startsWith("Barre sur le haut du dos")
+        // L'exercice perso homonyme n'est ni dupliqué ni modifié.
+        assertThat(description("Windmill")).isNull()
+        db.query("SELECT COUNT(*) FROM exercises WHERE name = 'Windmill'").use { c ->
+            c.moveToFirst()
+            assertThat(c.getInt(0)).isEqualTo(1)
+        }
+        assertThat(description("Goblet squat")).isNotEmpty()
+        db.query("SELECT COUNT(*) FROM exercises").use { c ->
+            c.moveToFirst()
+            // Squat + Windmill perso + 11 nouveaux (Windmill déjà présent).
+            assertThat(c.getInt(0)).isEqualTo(2 + SeedData.addedInV3.size - 1)
         }
         db.query("SELECT COUNT(*) FROM set_entries").use { c ->
             c.moveToFirst()

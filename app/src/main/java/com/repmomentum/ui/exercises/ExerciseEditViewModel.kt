@@ -31,6 +31,7 @@ data class ExerciseEditUiState(
     val exerciseType: ExerciseType = ExerciseType.WEIGHTED,
     val loadUnit: LoadUnit = LoadUnit.KG,
     val isFavorite: Boolean = false,
+    val description: String = "",
     /** Des séries existent : type et unité ne peuvent plus changer. */
     val hasHistory: Boolean = false,
     val error: ExerciseFormError? = null,
@@ -70,6 +71,7 @@ class ExerciseEditViewModel(
                 exerciseType = existing.exerciseType,
                 loadUnit = existing.loadUnit,
                 isFavorite = existing.isFavorite,
+                description = existing.description.orEmpty(),
                 hasHistory = runCatching { exercises.hasSets(existing.id) }.getOrDefault(true),
             )
         } else {
@@ -83,6 +85,7 @@ class ExerciseEditViewModel(
             exerciseType = handle.get<String>(KEY_TYPE)?.let(ExerciseType::valueOf) ?: base.exerciseType,
             loadUnit = handle.get<String>(KEY_UNIT)?.let(LoadUnit::valueOf) ?: base.loadUnit,
             isFavorite = handle[KEY_FAVORITE] ?: base.isFavorite,
+            description = handle[KEY_DESCRIPTION] ?: base.description,
         )
     }
 
@@ -104,13 +107,22 @@ class ExerciseEditViewModel(
 
     fun setFavorite(value: Boolean) = edit { it.copy(isFavorite = value) }
 
+    fun setDescription(value: String) = edit { it.copy(description = value.take(MAX_DESCRIPTION)) }
+
     fun save() {
         val s = _state.value
         if (s.isSaving) return
         _state.update { it.copy(isSaving = true, error = null) }
         viewModelScope.launch {
             val exercise = (original ?: Exercise(name = "", muscleGroup = s.muscleGroup, exerciseType = s.exerciseType, loadUnit = s.loadUnit, isCustom = true))
-                .copy(name = s.name, muscleGroup = s.muscleGroup, exerciseType = s.exerciseType, loadUnit = s.loadUnit, isFavorite = s.isFavorite)
+                .copy(
+                    name = s.name,
+                    muscleGroup = s.muscleGroup,
+                    exerciseType = s.exerciseType,
+                    loadUnit = s.loadUnit,
+                    isFavorite = s.isFavorite,
+                    description = s.description.trim().ifEmpty { null },
+                )
             val result = runCatching { exercises.save(exercise) }.getOrNull()
             val error = when (result) {
                 is SaveExerciseResult.Saved -> null
@@ -141,6 +153,7 @@ class ExerciseEditViewModel(
         handle[KEY_TYPE] = s.exerciseType.name
         handle[KEY_UNIT] = s.loadUnit.name
         handle[KEY_FAVORITE] = s.isFavorite
+        handle[KEY_DESCRIPTION] = s.description
     }
 
     private companion object {
@@ -149,6 +162,8 @@ class ExerciseEditViewModel(
         const val KEY_TYPE = "type"
         const val KEY_UNIT = "unit"
         const val KEY_FAVORITE = "favorite"
+        const val KEY_DESCRIPTION = "description"
         const val MAX_NAME = 60
+        const val MAX_DESCRIPTION = 500
     }
 }
