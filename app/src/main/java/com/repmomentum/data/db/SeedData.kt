@@ -68,7 +68,7 @@ object SeedData {
         ),
         ex(
             "Fentes", LEGS, BODYWEIGHT,
-            description = "Grand pas en avant, descendre le genou arrière près du sol, buste droit, puis revenir. Reps par jambe. Lest facultatif.",
+            description = "Grand pas en avant, descendre le genou arrière près du sol, buste droit, puis revenir. Lest facultatif.",
         ),
         ex(
             "Squat au poids du corps", LEGS, BODYWEIGHT,
@@ -88,7 +88,7 @@ object SeedData {
         ),
         ex(
             "Gainage latéral", CORE, TIMED,
-            description = "Sur un avant-bras, corps de profil et aligné, hanches hautes. Durée par côté.",
+            description = "Sur un avant-bras, corps de profil et aligné, hanches hautes.",
         ),
         ex(
             "Chaise", LEGS, TIMED,
@@ -104,7 +104,7 @@ object SeedData {
         ),
         ex(
             "Kettlebell halo", SHOULDERS, WEIGHTED,
-            description = "Kettlebell tenue par les cornes, tête en bas. La faire tourner autour de la tête, près du visage, abdos serrés. Reps par sens.",
+            description = "Kettlebell tenue par les cornes, tête en bas. La faire tourner autour de la tête, près du visage, abdos serrés.",
         ),
     )
 
@@ -116,31 +116,31 @@ object SeedData {
         ),
         ex(
             "Kettlebell swing à une main", FULL_BODY, WEIGHTED,
-            description = "Même mouvement que le swing à deux mains, d'une seule main, sans laisser le buste tourner. Reps par côté.",
+            description = "Même mouvement que le swing à deux mains, d'une seule main, sans laisser le buste tourner.",
         ),
         ex(
             "Kettlebell clean", FULL_BODY, WEIGHTED,
-            description = "Depuis le swing, ramener la kettlebell en position rack (contre l'avant-bras, à hauteur d'épaule) sans qu'elle frappe le poignet. Reps par côté.",
+            description = "Depuis le swing, ramener la kettlebell en position rack (contre l'avant-bras, à hauteur d'épaule) sans qu'elle frappe le poignet.",
         ),
         ex(
             "Clean & press kettlebell", SHOULDERS, WEIGHTED,
-            description = "Clean jusqu'en rack, puis développé au-dessus de la tête jusqu'au bras verrouillé. Reps par côté.",
+            description = "Clean jusqu'en rack, puis développé au-dessus de la tête jusqu'au bras verrouillé.",
         ),
         ex(
             "Kettlebell snatch", FULL_BODY, WEIGHTED,
-            description = "Depuis le swing, monter la kettlebell d'un seul mouvement jusqu'au bras tendu au-dessus de la tête. Technique exigeante. Reps par côté.",
+            description = "Depuis le swing, monter la kettlebell d'un seul mouvement jusqu'au bras tendu au-dessus de la tête. Technique exigeante.",
         ),
         ex(
             "Turkish get-up", FULL_BODY, WEIGHTED,
-            description = "Allongé, kettlebell bras tendu vers le plafond. Se relever jusqu'à debout étape par étape, regard sur la charge, puis redescendre. Reps par côté.",
+            description = "Allongé, kettlebell bras tendu vers le plafond. Se relever jusqu'à debout étape par étape, regard sur la charge, puis redescendre.",
         ),
         ex(
             "Développé militaire kettlebell", SHOULDERS, WEIGHTED,
-            description = "Depuis la position rack, pousser la kettlebell au-dessus de la tête, abdos et fessiers serrés. Reps par côté.",
+            description = "Depuis la position rack, pousser la kettlebell au-dessus de la tête, abdos et fessiers serrés.",
         ),
         ex(
             "Rowing kettlebell", BACK, WEIGHTED,
-            description = "Une main en appui, dos plat. Tirer la kettlebell vers la hanche, coude près du corps. Reps par côté.",
+            description = "Une main en appui, dos plat. Tirer la kettlebell vers la hanche, coude près du corps.",
         ),
         ex(
             "Soulevé de terre kettlebell", BACK, WEIGHTED,
@@ -148,11 +148,11 @@ object SeedData {
         ),
         ex(
             "Windmill", CORE, WEIGHTED,
-            description = "Kettlebell bras tendu au-dessus de la tête. Pousser la hanche sur le côté et descendre l'autre main vers le pied, regard sur la charge. Reps par côté.",
+            description = "Kettlebell bras tendu au-dessus de la tête. Pousser la hanche sur le côté et descendre l'autre main vers le pied, regard sur la charge.",
         ),
         ex(
             "Around the world", CORE, WEIGHTED,
-            description = "Debout, passer la kettlebell d'une main à l'autre autour de la taille, bassin stable. Reps par sens.",
+            description = "Debout, passer la kettlebell d'une main à l'autre autour de la taille, bassin stable.",
         ),
         ex(
             "Farmer walk", FULL_BODY, TIMED,

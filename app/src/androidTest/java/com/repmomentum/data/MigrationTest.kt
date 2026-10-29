@@ -94,6 +94,31 @@ class MigrationTest {
         db.close()
     }
 
+    @Test
+    fun migration3To4RemovesPerSideMentionsFromPreloadedOnly() {
+        helper.createDatabase(DB, 3).use { db ->
+            db.execSQL(
+                "INSERT INTO exercises (name, muscleGroup, exerciseType, loadUnit, isFavorite, isCustom, isArchived, description) " +
+                    "VALUES ('Rowing kettlebell', 'BACK', 'WEIGHTED', 'KG', 0, 0, 0, 'Ancienne consigne. Reps par côté.')",
+            )
+            db.execSQL(
+                "INSERT INTO exercises (name, muscleGroup, exerciseType, loadUnit, isFavorite, isCustom, isArchived, description) " +
+                    "VALUES ('Mon row', 'BACK', 'WEIGHTED', 'KG', 0, 1, 0, 'Reps par côté.')",
+            )
+        }
+
+        val db = helper.runMigrationsAndValidate(DB, 4, true, RepMomentumDatabase.MIGRATION_3_4)
+
+        db.query("SELECT name, description FROM exercises ORDER BY id").use { c ->
+            c.moveToNext()
+            assertThat(c.getString(1)).doesNotContain("par côté")
+            assertThat(c.getString(1)).startsWith("Une main en appui")
+            c.moveToNext()
+            assertThat(c.getString(1)).isEqualTo("Reps par côté.")
+        }
+        db.close()
+    }
+
     private companion object {
         const val DB = "migration-test"
     }

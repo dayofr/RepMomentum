@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Exercise::class, SetEntry::class], version = 3, exportSchema = true)
+@Database(entities = [Exercise::class, SetEntry::class], version = 4, exportSchema = true)
 abstract class RepMomentumDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
     abstract fun setEntryDao(): SetEntryDao
@@ -21,7 +21,7 @@ abstract class RepMomentumDatabase : RoomDatabase() {
             } else {
                 Room.databaseBuilder(context, RepMomentumDatabase::class.java, NAME)
             }
-            return builder.addCallback(SeedCallback).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
+            return builder.addCallback(SeedCallback).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build()
         }
 
         /** v2 : swing et halo. Données seulement, le schéma ne change pas. */
@@ -34,13 +34,25 @@ abstract class RepMomentumDatabase : RoomDatabase() {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE exercises ADD COLUMN description TEXT")
                 insertMissing(db, SeedData.addedInV3, withDescription = true)
-                // Seuls les exercices préchargés reçoivent leur consigne ; les perso restent intacts.
-                SeedData.exercises.forEach { exercise ->
-                    db.execSQL(
-                        "UPDATE exercises SET description = ? WHERE isCustom = 0 AND description IS NULL AND name = ?",
-                        arrayOf<Any?>(exercise.description, exercise.name),
-                    )
-                }
+                refreshSeedDescriptions(db)
+            }
+        }
+
+        /** v4 : consignes sans mention « par côté » (le poids et les reps sont totaux). */
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) = refreshSeedDescriptions(db)
+        }
+
+        /**
+         * Aligne les consignes des exercices préchargés sur [SeedData]. Elles ne sont pas éditables
+         * dans l'app ; les exercices perso, eux, restent intacts.
+         */
+        private fun refreshSeedDescriptions(db: SupportSQLiteDatabase) {
+            SeedData.exercises.forEach { exercise ->
+                db.execSQL(
+                    "UPDATE exercises SET description = ? WHERE isCustom = 0 AND name = ?",
+                    arrayOf<Any?>(exercise.description, exercise.name),
+                )
             }
         }
 
