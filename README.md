@@ -22,6 +22,10 @@ Publication F-Droid : `docs/fdroid/PUBLICATION.md`.
 ./gradlew :app:assembleRelease              # APK release (R8)
 ```
 
+## Intégration continue
+
+`.github/workflows/build.yml` lance les tests JVM, le lint et le build des APK debug et release (non signé) à chaque push sur `main`, tag `v*` et pull request. Les APK sont disponibles dans les artefacts du run. Les tests instrumentés restent à lancer en local. Les actions sont épinglées par SHA.
+
 ## Signature release
 
 1. Créer la clé (hors dépôt) :

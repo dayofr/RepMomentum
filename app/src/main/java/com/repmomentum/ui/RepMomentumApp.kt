@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -60,6 +61,7 @@ fun RepMomentumApp() {
     val navController = rememberNavController()
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val resources = LocalResources.current
     val context = LocalContext.current
     val container = (context.applicationContext as RepMomentumApplication).container
     val backStack by navController.currentBackStackEntryAsState()
@@ -70,10 +72,10 @@ fun RepMomentumApp() {
     fun announce(event: SetSavedEvent) {
         scope.launch {
             snackbar.currentSnackbarData?.dismiss()
-            val message = context.getString(if (event.isNew) R.string.snackbar_set_saved else R.string.snackbar_set_updated)
+            val message = resources.getString(if (event.isNew) R.string.snackbar_set_saved else R.string.snackbar_set_updated)
             val result = snackbar.showSnackbar(
                 message = message,
-                actionLabel = if (event.isNew) context.getString(R.string.action_undo) else null,
+                actionLabel = if (event.isNew) resources.getString(R.string.action_undo) else null,
                 // Plus long quand une annulation est possible : le temps de réagir après l'effort.
                 duration = if (event.isNew) SnackbarDuration.Long else SnackbarDuration.Short,
             )
@@ -131,7 +133,7 @@ fun RepMomentumApp() {
                     },
                     onDeleted = {
                         navController.popBackStack()
-                        scope.launch { snackbar.showSnackbar(context.getString(R.string.snackbar_set_deleted)) }
+                        scope.launch { snackbar.showSnackbar(resources.getString(R.string.snackbar_set_deleted)) }
                     },
                 )
             }
@@ -149,7 +151,7 @@ fun RepMomentumApp() {
                     onRemoved = { message ->
                         // L'exercice n'existe plus (ou est archivé) : on revient à la liste.
                         navController.popBackStack(ExercisesRoute, inclusive = false)
-                        scope.launch { snackbar.showSnackbar(context.getString(message)) }
+                        scope.launch { snackbar.showSnackbar(resources.getString(message)) }
                     },
                 )
             }
