@@ -26,6 +26,8 @@ Publication F-Droid : `docs/fdroid/PUBLICATION.md`.
 
 `.github/workflows/build.yml` lance les tests JVM, le lint et le build des APK debug et release (non signé) à chaque push sur `main`, tag `v*` et pull request. Les APK sont disponibles dans les artefacts du run. Les tests instrumentés restent à lancer en local. Les actions sont épinglées par SHA.
 
+`.github/workflows/release.yml` construit l'APK signé et l'ajoute à la release GitHub à chaque tag `v*`. Pour un tag existant : `gh workflow run release.yml -f tag=vX.Y.Z`. Il utilise les secrets `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` et `KEY_PASSWORD`.
+
 ## Signature release
 
 1. Créer la clé (hors dépôt) :
